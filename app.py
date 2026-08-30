@@ -1,9 +1,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from database import AppointmentDB
 from datetime import date
+import os
 
 app = Flask(__name__)
-app.secret_key = 'your-secret-key-here'  # Required for flash messages
+app.secret_key = os.environ.get("SECRET_KEY", "dev-secret-key")
 
 # Initialize database
 db = AppointmentDB()
