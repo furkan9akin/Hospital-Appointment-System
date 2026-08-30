@@ -1,45 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Randevu Takip Sistemi - Hastalar</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>Hospital Appointment System - Patients</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <nav>
-        <div class="nav-container">
-            <h1>Randevu Takip Sistemi</h1>
-            <ul>
-                <li><a href="{{ url_for('index') }}">Ana Sayfa</a></li>
-                <li><a href="{{ url_for('appointments') }}">Randevular</a></li>
-                <li><a href="{{ url_for('patients') }}" class="active">Hastalar</a></li>
-                <li><a href="{{ url_for('doctors') }}">Doktorlar</a></li>
-                <li><a href="{{ url_for('about') }}">Hakkında</a></li>
-            </ul>
+
+<nav>
+
+    <div class="nav-container">
+
+        <h1>Hospital Appointment System</h1>
+
+        <ul>
+            <li><a href="{{ url_for('index') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('appointments') }}">Appointments</a></li>
+
+            <li>
+                <a href="{{ url_for('patients') }}" class="active">
+                    Patients
+                </a>
+            </li>
+
+            <li><a href="{{ url_for('doctors') }}">Doctors</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+
+    </div>
+
+</nav>
+
+
+<main>
+
+    <div class="container">
+
+        <div class="section-header"
+             style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2rem;">
+
+            <h2>Patients</h2>
+
+            <a href="{{ url_for('add_patient') }}" class="btn">
+                + New Patient
+            </a>
+
         </div>
-    </nav>
-    <main>
-        <div class="container">
-            <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-                <h2>Tüm Hastalar</h2>
-                <a href="{{ url_for('add_patient') }}" class="btn">+ Yeni Hasta</a>
-            </div>
-            {% if patients %}
-            <div class="patients-table" style="overflow-x: auto;">
+
+
+        {% if patients %}
+
+            <div class="patients-table"
+                 style="overflow-x:auto;">
+
                 <table>
+
                     <thead>
-                        <tr>
-                            <th>Ad</th>
-                            <th>Soyad</th>
-                            <th>Telefon</th>
-                            <th>E-posta</th>
-                            <th>Doğum Tarihi</th>
-                            <th>Adres</th>
-                        </tr>
+
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                        <th>Date of Birth</th>
+                        <th>Address</th>
+                    </tr>
+
                     </thead>
+
+
                     <tbody>
-                        {% for patient in patients %}
+
+                    {% for patient in patients %}
+
                         <tr>
                             <td>{{ patient.first_name }}</td>
                             <td>{{ patient.last_name }}</td>
@@ -48,20 +87,40 @@
                             <td>{{ patient.date_of_birth or '-' }}</td>
                             <td>{{ patient.address or '-' }}</td>
                         </tr>
-                        {% endfor %}
+
+                    {% endfor %}
+
                     </tbody>
+
                 </table>
+
             </div>
-            {% else %}
-            <div class="no-patients" style="text-align: center; padding: 3rem;">
-                <p>Henüz hasta kaydı bulunmuyor.</p>
-                <a href="{{ url_for('add_patient') }}" class="btn">İlk Hastayı Ekle</a>
+
+        {% else %}
+
+            <div class="no-patients"
+                 style="text-align:center; padding:3rem;">
+
+                <p>No patient records have been created yet.</p>
+
+                <a href="{{ url_for('add_patient') }}"
+                   class="btn">
+                    Add First Patient
+                </a>
+
             </div>
-            {% endif %}
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2025 Randevu Takip Sistemi. Tüm hakları saklıdır.</p>
-    </footer>
+
+        {% endif %}
+
+    </div>
+
+</main>
+
+
+<footer>
+    <p>Hospital Appointment System · Educational software project</p>
+</footer>
+
 </body>
-</html> 
+
+</html>
