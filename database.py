@@ -91,12 +91,23 @@ class AppointmentDB:
         if cursor.fetchone()[0] == 0:
             # Insert sample patients
             patients = [
-                ('Ahmet', 'Yılmaz', '0555-123-4567', 'ahmet@gmail.com', '1985-03-15', 'İstanbul, Kadıköy'),
-                ('Ayşe', 'Demir', '0555-234-5678', 'ayse@gmail.com', '1990-07-22', 'Ankara, Çankaya'),
-                ('Mehmet', 'Kaya', '0555-345-6789', 'mehmet@gmail.com', '1978-11-08', 'İzmir, Konak'),
-                ('Fatma', 'Özkan', '0555-456-7890', 'fatma@gmail.com', '1992-05-14', 'Bursa, Nilüfer'),
-                ('Ali', 'Çelik', '0555-567-8901', 'ali@gmail.com', '1988-09-30', 'Antalya, Muratpaşa')
-            ]
+    (
+        "Alex",
+        "Morgan",
+        "+1-555-0101",
+        "alex.morgan@example.test",
+        "1985-03-15",
+        "Demo City"
+    ),
+    (
+        "Jordan",
+        "Lee",
+        "+1-555-0102",
+        "jordan.lee@example.test",
+        "1990-07-22",
+        "Demo City"
+    )
+]
             
             cursor.executemany('''
                 INSERT INTO patients (first_name, last_name, phone, email, date_of_birth, address)
@@ -104,14 +115,22 @@ class AppointmentDB:
             ''', patients)
             
             # Insert sample doctors
-            doctors = [
-                ('Dr. Selim', 'Arslan', 'Kardiyoloji', '0555-111-2222', 'selim@hospital.com'),
-                ('Dr. Zeynep', 'Koç', 'Dermatoloji', '0555-222-3333', 'zeynep@hospital.com'),
-                ('Dr. Mustafa', 'Yıldız', 'Ortopedi', '0555-333-4444', 'mustafa@hospital.com'),
-                ('Dr. Elif', 'Şahin', 'Göz Hastalıkları', '0555-444-5555', 'elif@hospital.com'),
-                ('Dr. Kemal', 'Özkan', 'Nöroloji', '0555-555-6666', 'kemal@hospital.com'),
-                ('Dr. Asım', 'Akın', 'Anestezi', '0530-148-2828', 'asim@hospital.com')
-            ]
+           doctors = [
+    (
+        "Ahmet",
+        "Stone",
+        "Cardiology",
+        "+1-555-0201",
+        "emma.stone@example.test"
+    ),
+    (
+        "Mehmet",
+        "Oz",
+        "Dermatology",
+        "+1-555-0202",
+        "daniel.reed@example.test"
+    )
+]
             
             cursor.executemany('''
                 INSERT INTO doctors (first_name, last_name, specialization, phone, email)
@@ -121,11 +140,11 @@ class AppointmentDB:
             # Insert sample appointments
             today = datetime.now().date()
             appointments = [
-                (1, 1, today + timedelta(days=1), '09:00', 30, 'scheduled', 'Kontrol muayenesi'),
-                (2, 2, today + timedelta(days=2), '14:30', 45, 'scheduled', 'İlk muayene'),
-                (3, 3, today + timedelta(days=3), '11:00', 60, 'scheduled', 'Ameliyat sonrası kontrol'),
-                (4, 4, today + timedelta(days=1), '16:00', 30, 'scheduled', 'Göz muayenesi'),
-                (5, 5, today + timedelta(days=4), '10:30', 45, 'scheduled', 'Nörolojik muayene')
+                (1, 1, today + timedelta(days=1), '09:00', 30, 'scheduled', 'Routine check-up'),
+                (2, 2, today + timedelta(days=2), '14:30', 45, 'scheduled', 'Initial consultation'),
+                (3, 3, today + timedelta(days=3), '11:00', 60, 'scheduled', 'Post-treatment follow-up'),
+                (4, 4, today + timedelta(days=1), '16:00', 30, 'scheduled', 'Eye Diagnosis'),
+                (5, 5, today + timedelta(days=4), '10:30', 45, 'scheduled', 'Neurology Diagnosis')
             ]
             
             cursor.executemany('''
