@@ -1,50 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Randevu Takip Sistemi - About</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>Hospital Appointment System - About</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <nav>
-        <div class="nav-container">
-            <h1>Randevu Takip Sistemi</h1>
+
+<nav>
+
+    <div class="nav-container">
+
+        <h1>Hospital Appointment System</h1>
+
+        <ul>
+            <li><a href="{{ url_for('index') }}">Dashboard</a></li>
+
+            <li>
+                <a href="{{ url_for('appointments') }}">
+                    Appointments
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('patients') }}">
+                    Patients
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('doctors') }}">
+                    Doctors
+                </a>
+            </li>
+
+            <li>
+                <a href="{{ url_for('about') }}" class="active">
+                    About
+                </a>
+            </li>
+        </ul>
+
+    </div>
+
+</nav>
+
+
+<main>
+
+    <div class="container">
+
+        <div class="section">
+
+            <h2>About This Project</h2>
+
+            <p>
+                The Hospital Appointment System is a web application
+                developed to explore backend development, database design,
+                and appointment-management workflows using Python.
+            </p>
+
+
+            <h3>Project Features</h3>
+
             <ul>
-                <li><a href="{{ url_for('index') }}">Ana Sayfa</a></li>
-                <li><a href="{{ url_for('appointments') }}">Randevular</a></li>
-                <li><a href="{{ url_for('patients') }}">Hastalar</a></li>
-                <li><a href="{{ url_for('doctors') }}">Doktorlar</a></li>
-                <li><a href="{{ url_for('about') }}">Hakkında</a></li>
+                <li>Patient record management</li>
+                <li>Doctor record management</li>
+                <li>Appointment scheduling</li>
+                <li>Appointment status tracking</li>
+                <li>Dashboard statistics</li>
+                <li>Upcoming appointment overview</li>
             </ul>
+
+
+            <h3>Technologies</h3>
+
+            <ul>
+                <li>Python</li>
+                <li>Flask</li>
+                <li>SQLite</li>
+                <li>HTML</li>
+                <li>CSS</li>
+            </ul>
+
+
+            <h3>Project Context</h3>
+
+            <p>
+                This project was originally developed as a final project
+                during the Kodland Python Level 3 program and was later
+                organized as a software portfolio project.
+            </p>
+
+
+            <h3>Developer</h3>
+
+            <p>
+                <strong>Furkan Akın</strong><br>
+                High school senior and aspiring Computer Science major.
+            </p>
+
         </div>
-    </nav>
-    
-    <main>
-        <div class="container">
-            <h2>About Us</h2>
-            <p></p>
-            <div class="about-content">
-                <h3>Hakkımızda:</h3>
-                <ul>
-                    <li>Hastanemiz 2025 ylında kurulmuştur. Hastanemize ait bu web sitesi, hastane randevularını kolay ve hızlı bir şekilde yönetebilmeniz için tasarlanmıştır. Kullanıcılar yaklaşan randevularını görüntüleyebilir, yeni hasta ve doktor kayıtları oluşturabilir ve sistemdeki tüm randevuları detaylı bir şekilde inceleyebilir. Basit ve kullanıcı dostu arayüzü sayesinde randevu süreci artık çok daha düzenli ve erişilebilir hale geliyor.</li>
 
-                    <div class="contact-info">
-                        <h3>Bize ulaşmak için:</h3>
-                        <p><strong>Email:</strong> furkan9akin@gmail.com</p>
-                        <p><strong>Phone:</strong> +(90) 537 213 56 20</p>
-                        <p><strong>Address:</strong> Istanbul Üsküdar</p>
-                    </div>
-                </ul>
-            </div>
-        </div>
+    </div>
 
-        
+</main>
 
-    </main>
-    
-    <footer>
-        <p>&copy; 2025 Randevu Takip Sistemi. All rights reserved.</p>
-    </footer>
+
+<footer>
+    <p>Hospital Appointment System · Educational software project</p>
+</footer>
+
 </body>
-</html> 
+
+</html>
