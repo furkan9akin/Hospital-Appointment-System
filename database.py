@@ -12,6 +12,13 @@ class AppointmentDB:
         conn.row_factory = sqlite3.Row  # This allows accessing columns by name
         return conn
     
+    def has_doctor_conflict(
+            self,
+            doctor_id,
+            appointment_date,
+            appointment_time,
+            duration_minutes
+        ):
     def init_database(self):
         """Initialize the database with required tables"""
         conn = self.get_connection()
