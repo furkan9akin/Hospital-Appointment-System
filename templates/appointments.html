@@ -1,201 +1,360 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Randevu Takip Sistemi - Randevular</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>Hospital Appointment System - Appointments</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <nav>
-        <div class="nav-container">
-            <h1>Randevu Takip Sistemi</h1>
-            <ul>
-                <li><a href="{{ url_for('index') }}">Ana Sayfa</a></li>
-                <li><a href="{{ url_for('appointments') }}" class="active">Randevular</a></li>
-                <li><a href="{{ url_for('patients') }}">Hastalar</a></li>
-                <li><a href="{{ url_for('doctors') }}">Doktorlar</a></li>
-                <li><a href="{{ url_for('about') }}">Hakkında</a></li>
-            </ul>
-        </div>
-    </nav>
-    
-    <main>
-        <div class="container">
-            <!-- Flash Messages -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
 
-            <div class="section">
-                <div class="section-header">
-                    <h2>Tüm Randevular</h2>
-                    <a href="{{ url_for('add_appointment') }}" class="btn">+ Yeni Randevu</a>
-                </div>
-                
-                {% if appointments %}
-                    <div class="appointments-table">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Tarih</th>
-                                    <th>Saat</th>
-                                    <th>Hasta</th>
-                                    <th>Doktor</th>
-                                    <th>Uzmanlık</th>
-                                    <th>Süre</th>
-                                    <th>Durum</th>
-                                    <th>Notlar</th>
-                                    <th>İşlemler</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for appointment in appointments %}
-                                    <tr>
-                                        <td>{{ appointment.appointment_date }}</td>
-                                        <td>{{ appointment.appointment_time }}</td>
-                                        <td>
-                                            <strong>{{ appointment.patient_first_name }} {{ appointment.patient_last_name }}</strong>
-                                            <br><small>{{ appointment.patient_phone }}</small>
-                                        </td>
-                                        <td>{{ appointment.doctor_first_name }} {{ appointment.doctor_last_name }}</td>
-                                        <td>{{ appointment.specialization }}</td>
-                                        <td>{{ appointment.duration_minutes }} dk</td>
-                                        <td>
-                                            <span class="status-badge status-{{ appointment.status }}">
-                                                {{ appointment.status }}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            {% if appointment.notes %}
-                                                {{ appointment.notes }}
-                                            {% else %}
-                                                <em>-</em>
-                                            {% endif %}
-                                        </td>
-                                        <td>
-                                            <div class="action-buttons">
-                                                <!-- Status Update Form -->
-                                                <form method="POST" action="{{ url_for('update_appointment_status', appointment_id=appointment.id) }}" style="display: inline;">
-                                                    <select name="status" onchange="this.form.submit()" class="status-select">
-                                                        <option value="scheduled" {% if appointment.status == 'scheduled' %}selected{% endif %}>Planlandı</option>
-                                                        <option value="completed" {% if appointment.status == 'completed' %}selected{% endif %}>Tamamlandı</option>
-                                                        <option value="cancelled" {% if appointment.status == 'cancelled' %}selected{% endif %}>İptal Edildi</option>
-                                                        <option value="no-show" {% if appointment.status == 'no-show' %}selected{% endif %}>Gelmedi</option>
-                                                    </select>
-                                                </form>
-                                                
-                                                <!-- Delete Form -->
-                                                <form method="POST" action="{{ url_for('delete_appointment', appointment_id=appointment.id) }}" style="display: inline;" onsubmit="return confirm('Bu randevuyu silmek istediğinizden emin misiniz?')">
-                                                    <button type="submit" class="btn btn-danger" style="padding: 0.3rem 0.6rem; font-size: 0.8rem;">Sil</button>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
+<nav>
+
+    <div class="nav-container">
+
+        <h1>Hospital Appointment System</h1>
+
+        <ul>
+            <li><a href="{{ url_for('index') }}">Dashboard</a></li>
+
+            <li>
+                <a href="{{ url_for('appointments') }}" class="active">
+                    Appointments
+                </a>
+            </li>
+
+            <li><a href="{{ url_for('patients') }}">Patients</a></li>
+
+            <li><a href="{{ url_for('doctors') }}">Doctors</a></li>
+
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+
+    </div>
+
+</nav>
+
+
+<main>
+
+    <div class="container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
                     </div>
-                {% else %}
-                    <div class="no-appointments">
-                        <p>Henüz randevu bulunmuyor.</p>
-                        <a href="{{ url_for('add_appointment') }}" class="btn">İlk Randevuyu Oluştur</a>
-                    </div>
-                {% endif %}
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <h2>All Appointments</h2>
+
+                <a href="{{ url_for('add_appointment') }}"
+                   class="btn">
+                    + New Appointment
+                </a>
+
             </div>
-        </div>
-    </main>
-    
-    <footer>
-        <p>&copy; 2025 Randevu Takip Sistemi. Tüm hakları saklıdır.</p>
-    </footer>
 
-    <style>
+
+            {% if appointments %}
+
+                <div class="appointments-table">
+
+                    <table>
+
+                        <thead>
+
+                        <tr>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Patient</th>
+                            <th>Doctor</th>
+                            <th>Specialization</th>
+                            <th>Duration</th>
+                            <th>Status</th>
+                            <th>Notes</th>
+                            <th>Actions</th>
+                        </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                        {% for appointment in appointments %}
+
+                            <tr>
+
+                                <td>
+                                    {{ appointment.appointment_date }}
+                                </td>
+
+                                <td>
+                                    {{ appointment.appointment_time }}
+                                </td>
+
+
+                                <td>
+
+                                    <strong>
+                                        {{ appointment.patient_first_name }}
+                                        {{ appointment.patient_last_name }}
+                                    </strong>
+
+                                    <br>
+
+                                    <small>
+                                        {{ appointment.patient_phone }}
+                                    </small>
+
+                                </td>
+
+
+                                <td>
+                                    {{ appointment.doctor_first_name }}
+                                    {{ appointment.doctor_last_name }}
+                                </td>
+
+
+                                <td>
+                                    {{ appointment.specialization }}
+                                </td>
+
+
+                                <td>
+                                    {{ appointment.duration_minutes }} min
+                                </td>
+
+
+                                <td>
+
+                                    <span class="status-badge status-{{ appointment.status }}">
+                                        {{ appointment.status | replace('-', ' ') | title }}
+                                    </span>
+
+                                </td>
+
+
+                                <td>
+
+                                    {% if appointment.notes %}
+
+                                        {{ appointment.notes }}
+
+                                    {% else %}
+
+                                        <em>-</em>
+
+                                    {% endif %}
+
+                                </td>
+
+
+                                <td>
+
+                                    <div class="action-buttons">
+
+                                        <form method="POST"
+                                              action="{{ url_for('update_appointment_status', appointment_id=appointment.id) }}"
+                                              style="display:inline;">
+
+                                            <select name="status"
+                                                    onchange="this.form.submit()"
+                                                    class="status-select">
+
+                                                <option value="scheduled"
+                                                    {% if appointment.status == 'scheduled' %}
+                                                        selected
+                                                    {% endif %}>
+                                                    Scheduled
+                                                </option>
+
+                                                <option value="completed"
+                                                    {% if appointment.status == 'completed' %}
+                                                        selected
+                                                    {% endif %}>
+                                                    Completed
+                                                </option>
+
+                                                <option value="cancelled"
+                                                    {% if appointment.status == 'cancelled' %}
+                                                        selected
+                                                    {% endif %}>
+                                                    Cancelled
+                                                </option>
+
+                                                <option value="no-show"
+                                                    {% if appointment.status == 'no-show' %}
+                                                        selected
+                                                    {% endif %}>
+                                                    No-show
+                                                </option>
+
+                                            </select>
+
+                                        </form>
+
+
+                                        <form method="POST"
+                                              action="{{ url_for('delete_appointment', appointment_id=appointment.id) }}"
+                                              style="display:inline;"
+                                              onsubmit="return confirm('Are you sure you want to delete this appointment?')">
+
+                                            <button type="submit"
+                                                    class="btn btn-danger"
+                                                    style="padding:0.3rem 0.6rem; font-size:0.8rem;">
+                                                Delete
+                                            </button>
+
+                                        </form>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% else %}
+
+                <div class="no-appointments">
+
+                    <p>No appointments have been created yet.</p>
+
+                    <a href="{{ url_for('add_appointment') }}"
+                       class="btn">
+                        Create First Appointment
+                    </a>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<footer>
+    <p>Hospital Appointment System · Educational software project</p>
+</footer>
+
+
+<style>
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .appointments-table {
+        overflow-x: auto;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: white;
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    th,
+    td {
+        padding: 1rem;
+        text-align: left;
+        border-bottom: 1px solid #e1e5e9;
+    }
+
+    th {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-weight: 600;
+    }
+
+    tr:hover {
+        background-color: #f8f9fa;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+    }
+
+    .status-select {
+        padding: 0.3rem;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 0.8rem;
+    }
+
+    .no-appointments {
+        text-align: center;
+        padding: 3rem;
+    }
+
+    .no-appointments p {
+        margin-bottom: 1rem;
+        color: #666;
+    }
+
+    @media (max-width: 768px) {
+
         .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .appointments-table {
-            overflow-x: auto;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        
-        th, td {
-            padding: 1rem;
-            text-align: left;
-            border-bottom: 1px solid #e1e5e9;
-        }
-        
-        th {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            font-weight: 600;
-        }
-        
-        tr:hover {
-            background-color: #f8f9fa;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 0.5rem;
-            align-items: center;
-        }
-        
-        .status-select {
-            padding: 0.3rem;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
-        
-        .no-appointments {
+            flex-direction: column;
+            gap: 1rem;
             text-align: center;
-            padding: 3rem;
         }
-        
-        .no-appointments p {
-            margin-bottom: 1rem;
-            color: #666;
+
+        .appointments-table {
+            font-size: 0.9rem;
         }
-        
-        @media (max-width: 768px) {
-            .section-header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            
-            .appointments-table {
-                font-size: 0.9rem;
-            }
-            
-            th, td {
-                padding: 0.5rem;
-            }
-            
-            .action-buttons {
-                flex-direction: column;
-                gap: 0.3rem;
-            }
+
+        th,
+        td {
+            padding: 0.5rem;
         }
-    </style>
+
+        .action-buttons {
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+    }
+
+</style>
+
 </body>
-</html> 
+
+</html>
