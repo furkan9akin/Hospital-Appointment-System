@@ -1,167 +1,316 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Randevu Takip Sistemi - Yeni Randevu</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>Hospital Appointment System - Add Appointment</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
-    <nav>
-        <div class="nav-container">
-            <h1>Randevu Takip Sistemi</h1>
-            <ul>
-                <li><a href="{{ url_for('index') }}">Ana Sayfa</a></li>
-                <li><a href="{{ url_for('appointments') }}">Randevular</a></li>
-                <li><a href="{{ url_for('patients') }}">Hastalar</a></li>
-                <li><a href="{{ url_for('doctors') }}">Doktorlar</a></li>
-                <li><a href="{{ url_for('about') }}">Hakkında</a></li>
-            </ul>
-        </div>
-    </nav>
-    
-    <main>
-        <div class="container">
-            <!-- Flash Messages -->
-            {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    {% for category, message in messages %}
-                        <div class="alert alert-{{ category }}">
-                            {{ message }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
-            {% endwith %}
 
-            <div class="section">
-                <div class="section-header">
-                    <h2>Yeni Randevu Oluştur</h2>
-                    <a href="{{ url_for('appointments') }}" class="btn">← Randevulara Dön</a>
-                </div>
-                
-                <form method="POST" class="appointment-form">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="patient_id">Hasta *</label>
-                            <select id="patient_id" name="patient_id" required>
-                                <option value="">Hasta seçin...</option>
-                                {% for patient in patients %}
-                                    <option value="{{ patient.id }}">
-                                        {{ patient.first_name }} {{ patient.last_name }} - {{ patient.phone }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="doctor_id">Doktor *</label>
-                            <select id="doctor_id" name="doctor_id" required>
-                                <option value="">Doktor seçin...</option>
-                                {% for doctor in doctors %}
-                                    <option value="{{ doctor.id }}">
-                                        {{ doctor.first_name }} {{ doctor.last_name }} - {{ doctor.specialization }}
-                                    </option>
-                                {% endfor %}
-                            </select>
-                        </div>
+<nav>
+
+    <div class="nav-container">
+
+        <h1>Hospital Appointment System</h1>
+
+        <ul>
+            <li><a href="{{ url_for('index') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('appointments') }}">Appointments</a></li>
+            <li><a href="{{ url_for('patients') }}">Patients</a></li>
+            <li><a href="{{ url_for('doctors') }}">Doctors</a></li>
+            <li><a href="{{ url_for('about') }}">About</a></li>
+        </ul>
+
+    </div>
+
+</nav>
+
+
+<main>
+
+    <div class="container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+
+            {% if messages %}
+
+                {% for category, message in messages %}
+
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
                     </div>
-                    
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="appointment_date">Randevu Tarihi *</label>
-                            <input type="date" id="appointment_date" name="appointment_date" required min="{{ today }}">
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="appointment_time">Randevu Saati *</label>
-                            <input type="time" id="appointment_time" name="appointment_time" required>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="duration_minutes">Süre (Dakika)</label>
-                            <select id="duration_minutes" name="duration_minutes">
-                                <option value="15">15 dakika</option>
-                                <option value="30" selected>30 dakika</option>
-                                <option value="45">45 dakika</option>
-                                <option value="60">1 saat</option>
-                                <option value="90">1.5 saat</option>
-                                <option value="120">2 saat</option>
-                            </select>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="notes">Notlar</label>
-                        <textarea id="notes" name="notes" rows="4" placeholder="Randevu ile ilgili notlar..."></textarea>
-                    </div>
-                    
-                    <div class="form-actions">
-                        <button type="submit" class="btn">Randevu Oluştur</button>
-                        <a href="{{ url_for('appointments') }}" class="btn btn-secondary">İptal</a>
-                    </div>
-                </form>
+
+                {% endfor %}
+
+            {% endif %}
+
+        {% endwith %}
+
+
+        <div class="section">
+
+            <div class="section-header">
+
+                <h2>Create Appointment</h2>
+
+                <a href="{{ url_for('appointments') }}"
+                   class="btn">
+                    ← Back to Appointments
+                </a>
+
             </div>
+
+
+            <form method="POST"
+                  class="appointment-form">
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="patient_id">
+                            Patient *
+                        </label>
+
+                        <select id="patient_id"
+                                name="patient_id"
+                                required>
+
+                            <option value="">
+                                Select patient...
+                            </option>
+
+                            {% for patient in patients %}
+
+                                <option value="{{ patient.id }}">
+                                    {{ patient.first_name }}
+                                    {{ patient.last_name }}
+                                    -
+                                    {{ patient.phone }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="doctor_id">
+                            Doctor *
+                        </label>
+
+                        <select id="doctor_id"
+                                name="doctor_id"
+                                required>
+
+                            <option value="">
+                                Select doctor...
+                            </option>
+
+                            {% for doctor in doctors %}
+
+                                <option value="{{ doctor.id }}">
+                                    {{ doctor.first_name }}
+                                    {{ doctor.last_name }}
+                                    -
+                                    {{ doctor.specialization }}
+                                </option>
+
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+                    <div class="form-group">
+
+                        <label for="appointment_date">
+                            Appointment Date *
+                        </label>
+
+                        <input type="date"
+                               id="appointment_date"
+                               name="appointment_date"
+                               required
+                               min="{{ today }}">
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="appointment_time">
+                            Appointment Time *
+                        </label>
+
+                        <input type="time"
+                               id="appointment_time"
+                               name="appointment_time"
+                               required>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="duration_minutes">
+                            Duration
+                        </label>
+
+                        <select id="duration_minutes"
+                                name="duration_minutes">
+
+                            <option value="15">15 minutes</option>
+
+                            <option value="30" selected>
+                                30 minutes
+                            </option>
+
+                            <option value="45">45 minutes</option>
+
+                            <option value="60">1 hour</option>
+
+                            <option value="90">1.5 hours</option>
+
+                            <option value="120">2 hours</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="notes">
+                        Notes
+                    </label>
+
+                    <textarea id="notes"
+                              name="notes"
+                              rows="4"
+                              placeholder="Optional notes about the appointment"></textarea>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="submit"
+                            class="btn">
+                        Create Appointment
+                    </button>
+
+                    <a href="{{ url_for('appointments') }}"
+                       class="btn btn-secondary">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
         </div>
-    </main>
-    
-    <footer>
-        <p>&copy; 2025 Randevu Takip Sistemi. Tüm hakları saklıdır.</p>
-    </footer>
 
-    <style>
+    </div>
+
+</main>
+
+
+<footer>
+    <p>Hospital Appointment System · Educational software project</p>
+</footer>
+
+
+<style>
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .appointment-form {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .btn-secondary {
+        background: linear-gradient(
+            135deg,
+            #6c757d 0%,
+            #495057 100%
+        );
+    }
+
+    @media (max-width: 768px) {
+
         .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        
-        .appointment-form {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        
-        .form-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-actions {
-            display: flex;
+            flex-direction: column;
             gap: 1rem;
-            justify-content: center;
-            margin-top: 2rem;
+            text-align: center;
         }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-        }
-        
-        @media (max-width: 768px) {
-            .section-header {
-                flex-direction: column;
-                gap: 1rem;
-                text-align: center;
-            }
-            
-            .form-row {
-                grid-template-columns: 1fr;
-            }
-            
-            .form-actions {
-                flex-direction: column;
-            }
-        }
-    </style>
 
-    <script>
-        // Set minimum date to today
-        document.addEventListener('DOMContentLoaded', function() {
-            const today = new Date().toISOString().split('T')[0];
-            document.getElementById('appointment_date').min = today;
-        });
-    </script>
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+    }
+
+</style>
+
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const dateInput =
+                document.getElementById("appointment_date");
+
+            const today =
+                new Date().toISOString().split("T")[0];
+
+            dateInput.min = today;
+        }
+    );
+
+</script>
+
 </body>
-</html> 
+
+</html>
