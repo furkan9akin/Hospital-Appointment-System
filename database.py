@@ -10,7 +10,9 @@ class AppointmentDB:
         """Create and return a database connection"""
         conn = sqlite3.connect(self.db_name)
         conn.row_factory = sqlite3.Row  # This allows accessing columns by name
+        conn.execute("PRAGMA foreign_keys = ON")
         return conn
+        
     
     def has_doctor_conflict(
             self,
