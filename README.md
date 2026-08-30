@@ -52,6 +52,7 @@ The project focuses on backend application development and the interaction betwe
 - Add appointment notes
 - Update appointment status
 - Delete appointments
+- Prevent overlapping appointments for the same doctor
 
 Supported appointment statuses include:
 
@@ -363,7 +364,6 @@ The project helped me understand how different components of a web application w
 
 Possible future improvements include:
 
-- prevent overlapping appointments for the same doctor
 - add user authentication
 - introduce different user roles
 - add edit functionality for patients and doctors
