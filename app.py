@@ -133,7 +133,17 @@ def add_appointment():
                     "Appointments cannot be scheduled in the past."
                 )
 
-            db.add_appointment(
+            if db.has_doctor_conflict(
+                doctor_id,
+                appointment_date,
+                appointment_time,
+                duration_minutes
+            ):
+                raise ValueError(
+                    "The selected doctor already has an overlapping appointment."
+                )
+    
+    db.add_appointment(
                 patient_id,
                 doctor_id,
                 appointment_date,
